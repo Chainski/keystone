@@ -2,7 +2,6 @@
 setlocal EnableDelayedExpansion
 color e
 echo Setting up Visual Studio environment...
-color 2
 call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
 color 6
 echo Creating build directory...
@@ -11,7 +10,6 @@ mkdir build
 cd build
 color 9
 echo Running nmake-lib.bat...
-color e
 cmd /c ..\nmake-lib.bat
 color 6
 echo Returning to parent directory...
