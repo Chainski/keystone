@@ -1,0 +1,93 @@
+name: Build keystone
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          architecture: x64
+
+      - name: Install pkg-config
+        shell: powershell
+        run: |
+          $pkgUrl = "https://github.com/lua-batteries/pkg-config/releases/download/v0.29.2/pkg-config-v0.29.2-x86_64-pc-windows-msvc.zip"
+          $zipPath = "$env:TEMP\pkg-config.zip"
+          Invoke-WebRequest -Uri $pkgUrl -OutFile $zipPath
+          Expand-Archive -Path $zipPath -DestinationPath "$env:TEMP\pkg-config"
+          ls "$env:TEMP\pkg-config\bin"
+
+      - name: Build keystone
+        shell: cmd
+        run: |
+          REM run build script
+          set PATH=%PATH%;%TEMP%\pkg-config\bin
+          build_windows_binaries.bat
+      - name: Delete existing tag and release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete 0.9.2 --cleanup-tag --yes || echo "No release or tag found for 0.9.2"
+        shell: bash
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: 0.9.2
+          release_name: keystone_windows_builds
+          body: |
+            Release created by GitHub Actions
+
+            - [x] update cmake builds to (successfully) build with modern cmake
+            - [x] update c header includes to build with gcc15
+            - [x] update rust bindings to be able to build
+            - [x] update rust bindings pass clippy lints
+          draft: false
+          prerelease: false
+
+      - name: Upload release assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ..\build\kstool\kstool.exe
+          asset_name: kstool.exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload keystone.lib
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ..\build\llvm\lib\keystone.lib
+          asset_name: keystone.lib
+          asset_content_type: application/octet-stream
+
+      - name: Upload keystone.dll
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ..\dll-build\llvm\bin\keystone.dll
+          asset_name: keystone.dll
+          asset_content_type: application/octet-stream
