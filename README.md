@@ -1,9 +1,18 @@
-Keystone Engine
-==============
+<p align="center">
+  <h1 align="center">Keystone Engine</h1>
+</p>
 
-[![Build Status](https://travis-ci.org/keystone-engine/keystone.svg?branch=master)](https://travis-ci.org/keystone-engine/keystone)
-[![Build Status](https://semaphoreci.com/api/v1/aquynh/keystone/branches/master/badge.svg)](https://semaphoreci.com/aquynh/keystone)
-[![Build status](https://ci.appveyor.com/api/projects/status/c27slvyrijiejvqs?svg=true)](https://ci.appveyor.com/project/aquynh/keystone)
+<p align= "center">
+   <img src="https://img.shields.io/github/actions/workflow/status/Chainski/keystone/keystone_windows_builds.yml?style=flat">
+   <img src="https://img.shields.io/github/stars/keystone-engine/keystone?style=flat">
+   <img src="https://img.shields.io/github/forks/keystone-engine/keystone?style=flat">
+   <img src="https://hits.sh/github.com/keystone-engine/keystone.svg?label=views">
+   <br>
+   <img src="https://img.shields.io/github/last-commit/keystone-engine/keystone?style=flat">
+   <img src="https://img.shields.io/github/license/keystone-engine/keystone?style=flat">
+   <br>
+</p>
+
 
 Keystone is a lightweight multi-platform, multi-architecture assembler framework.
 It offers some unparalleled features:
@@ -59,5 +68,4 @@ Keystone is impossible without generous support from [our sponsors](/SPONSORS.TX
 If you want to contribute, please pick up something from our [Github issues](https://github.com/keystone-engine/keystone/issues).
 
 We also maintain a list of more challenged problems in a [TODO list](https://github.com/keystone-engine/keystone/wiki/TODO).
-
 
