@@ -55,7 +55,7 @@ jobs:
 
             - [x] Update CMake builds to successfully build with modern CMake
             - [x] Update C header includes to build with GCC 15
-            - [x] Fix MSVC C2131 error in RISCVAsmBackend.h by replacing array_lengthof with std::size in static_assert for constant expression evaluation
+            - [x] Fix MSVC C2131 error in `RISCVAsmBackend.h` by replacing array_lengthof with `std::size` in static_assert for constant expression evaluation
             - [x] Added build_windows_binaries.bat to support building Windows binaries with two configurations `-DBUILD_SHARED_LIBS=ON` and `-DBUILD_SHARED_LIBS=OFF` 
           draft: false
           prerelease: false
